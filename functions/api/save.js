@@ -1,7 +1,7 @@
 export async function onRequestPost(context) {
 
   const APPS_SCRIPT_URL =
-    "https://script.google.com/macros/s/AKfycbwFxJ4qgI5jjoIECQ-AHGnsDnNeXpbpk7r7NkXEJJ6u49w3NsK6UuIp5ZbsxNa17fPizQ/exec";
+    "https://script.google.com/macros/s/AKfycbwEZedspWK4VTSBcddfkOmbi4JSeGQ-8F9wjn1Fg4p-xsd8ACXMusfb_hc9x6uvbdQ8Vg/exec";
 
 
   /*************************************************
