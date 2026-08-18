@@ -1,1 +1,3197 @@
+<!DOCTYPE html>
+<html lang="th">
 
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
+  >
+
+  <meta
+    name="theme-color"
+    content="#ed001b"
+  >
+
+  <title>
+    CJ LOGISTICS - TRIP
+  </title>
+
+
+  <!-- QR SCANNER -->
+  <script
+    src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"
+  ></script>
+
+
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+html,
+body {
+
+  margin: 0;
+  padding: 0;
+
+  min-height: 100%;
+
+}
+
+
+body {
+
+  font-family:
+    Arial,
+    "Noto Sans Thai",
+    sans-serif;
+
+  background:
+    linear-gradient(
+      160deg,
+      #f4f7fa,
+      #eaf4fb
+    );
+
+  color: #172033;
+
+}
+
+
+button,
+input,
+textarea {
+
+  font-family: inherit;
+
+}
+
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app {
+
+  width: 100%;
+
+  max-width: 820px;
+
+  margin: auto;
+
+  padding:
+    12px
+    12px
+    45px;
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+
+  position: relative;
+
+  overflow: hidden;
+
+  padding:
+    22px;
+
+  border-radius:
+    20px;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      110deg,
+      #ed001b,
+      #ff2945
+    );
+
+  box-shadow:
+    0 10px 28px
+    rgba(230,0,30,.18);
+
+}
+
+
+.header::after {
+
+  content: "";
+
+  position: absolute;
+
+  width:
+    210px;
+
+  height:
+    210px;
+
+  top:
+    -120px;
+
+  right:
+    -80px;
+
+  border-radius:
+    50%;
+
+  background:
+    rgba(120,0,0,.15);
+
+}
+
+
+.header-content {
+
+  position:
+    relative;
+
+  z-index:
+    2;
+
+}
+
+
+.brand {
+
+  margin-bottom:
+    8px;
+
+  font-size:
+    12px;
+
+  font-weight:
+    900;
+
+  letter-spacing:
+    4px;
+
+}
+
+
+.header h1 {
+
+  margin:
+    0;
+
+  font-size:
+    23px;
+
+}
+
+
+.clock {
+
+  margin-top:
+    10px;
+
+  font-size:
+    14px;
+
+}
+
+
+/* =========================================================
+   NAV
+========================================================= */
+
+.nav {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:
+    7px;
+
+  margin-top:
+    13px;
+
+  padding:
+    7px;
+
+  border-radius:
+    17px;
+
+  background:
+    white;
+
+  box-shadow:
+    0 7px 22px
+    rgba(0,0,0,.06);
+
+}
+
+
+.nav-btn {
+
+  min-height:
+    50px;
+
+  border:
+    none;
+
+  border-radius:
+    12px;
+
+  background:
+    white;
+
+  color:
+    #172033;
+
+  font-size:
+    15px;
+
+  font-weight:
+    900;
+
+  cursor:
+    pointer;
+
+}
+
+
+.nav-btn.active {
+
+  color:
+    white;
+
+  background:
+    linear-gradient(
+      90deg,
+      #ed001b,
+      #ff3651
+    );
+
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.card {
+
+  margin-top:
+    14px;
+
+  padding:
+    18px;
+
+  border-radius:
+    19px;
+
+  background:
+    white;
+
+  box-shadow:
+    0 8px 26px
+    rgba(0,0,0,.06);
+
+}
+
+
+.card-title {
+
+  margin-bottom:
+    20px;
+
+  font-size:
+    19px;
+
+  font-weight:
+    900;
+
+}
+
+
+/* =========================================================
+   FIELD
+========================================================= */
+
+.field {
+
+  margin-bottom:
+    20px;
+
+}
+
+
+label {
+
+  display:
+    block;
+
+  margin-bottom:
+    8px;
+
+  font-size:
+    16px;
+
+  font-weight:
+    900;
+
+}
+
+
+input,
+textarea {
+
+  width:
+    100%;
+
+  border:
+    2px solid #d4deea;
+
+  border-radius:
+    14px;
+
+  outline:
+    none;
+
+  background:
+    white;
+
+  color:
+    #172033;
+
+  font-size:
+    16px;
+
+}
+
+
+input {
+
+  height:
+    54px;
+
+  padding:
+    0 14px;
+
+}
+
+
+textarea {
+
+  min-height:
+    95px;
+
+  padding:
+    14px;
+
+  resize:
+    vertical;
+
+}
+
+
+input:focus,
+textarea:focus {
+
+  border-color:
+    #1098da;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(16,152,218,.10);
+
+}
+
+
+/* =========================================================
+  TRIP
+========================================================= */
+
+.tip-row {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr 110px;
+
+  gap:
+    9px;
+
+}
+
+
+.scan-btn {
+
+  border:
+    none;
+
+  border-radius:
+    14px;
+
+  cursor:
+    pointer;
+
+  color:
+    white;
+
+  font-size:
+    15px;
+
+  font-weight:
+    900;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0781cd,
+      #18a7e8
+    );
+
+}
+
+
+/* =========================================================
+   TYPE
+========================================================= */
+
+.type-grid {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:
+    10px;
+
+}
+
+
+.type-btn {
+
+  min-height:
+    57px;
+
+  border:
+    2px solid #d9e1ea;
+
+  border-radius:
+    14px;
+
+  background:
+    white;
+
+  font-size:
+    16px;
+
+  font-weight:
+    900;
+
+  cursor:
+    pointer;
+
+}
+
+
+.type-btn.receive.active {
+
+  color:
+    #087d45;
+
+  border-color:
+    #16a45d;
+
+  background:
+    #eafff3;
+
+}
+
+
+.type-btn.return.active {
+
+  color:
+    #b91025;
+
+  border-color:
+    #ed2137;
+
+  background:
+    #fff0f2;
+
+}
+
+
+/* =========================================================
+   PEOPLE
+========================================================= */
+
+.people-info {
+
+  margin-bottom:
+    10px;
+
+  padding:
+    11px 13px;
+
+  border-radius:
+    11px;
+
+  background:
+    #f2f5f8;
+
+  color:
+    #647084;
+
+  font-size:
+    13px;
+
+}
+
+
+.person-row {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr 52px;
+
+  gap:
+    8px;
+
+  margin-bottom:
+    9px;
+
+}
+
+
+.remove-person {
+
+  border:
+    none;
+
+  border-radius:
+    13px;
+
+  background:
+    #fff0f1;
+
+  color:
+    #cf1529;
+
+  font-size:
+    19px;
+
+  cursor:
+    pointer;
+
+}
+
+
+.add-person {
+
+  width:
+    100%;
+
+  min-height:
+    48px;
+
+  border:
+    2px dashed #0d8fd0;
+
+  border-radius:
+    13px;
+
+  background:
+    #f2fbff;
+
+  color:
+    #087fc0;
+
+  font-size:
+    15px;
+
+  font-weight:
+    900;
+
+  cursor:
+    pointer;
+
+}
+
+
+/* =========================================================
+   DATE / TIME
+========================================================= */
+
+.date-grid {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:
+    9px;
+
+}
+
+
+/* =========================================================
+   SAVE
+========================================================= */
+
+.save-btn {
+
+  width:
+    100%;
+
+  min-height:
+    58px;
+
+  border:
+    none;
+
+  border-radius:
+    14px;
+
+  cursor:
+    pointer;
+
+  color:
+    white;
+
+  font-size:
+    17px;
+
+  font-weight:
+    900;
+
+  background:
+    linear-gradient(
+      90deg,
+      #0783d0,
+      #17a7e8
+    );
+
+}
+
+
+.save-btn:disabled {
+
+  opacity:
+    .55;
+
+  cursor:
+    not-allowed;
+
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.message {
+
+  display:
+    none;
+
+  margin-top:
+    14px;
+
+  padding:
+    14px;
+
+  border-radius:
+    13px;
+
+  white-space:
+    pre-line;
+
+  font-size:
+    14px;
+
+  font-weight:
+    800;
+
+}
+
+
+.message.success {
+
+  display:
+    block;
+
+  color:
+    #0d6740;
+
+  background:
+    #dcf8e8;
+
+}
+
+
+.message.error {
+
+  display:
+    block;
+
+  color:
+    #9c1c2e;
+
+  background:
+    #fde3e7;
+
+}
+
+
+/* =========================================================
+   FULL SCREEN SCANNER
+========================================================= */
+
+#scannerOverlay {
+
+  position:
+    fixed;
+
+  inset:
+    0;
+
+  z-index:
+    99999;
+
+  display:
+    none;
+
+  flex-direction:
+    column;
+
+  background:
+    #000;
+
+}
+
+
+#scannerOverlay.open {
+
+  display:
+    flex;
+
+}
+
+
+/* HEADER SCANNER */
+
+.scanner-header {
+
+  position:
+    relative;
+
+  z-index:
+    30;
+
+  display:
+    grid;
+
+  grid-template-columns:
+    55px 1fr 55px;
+
+  align-items:
+    center;
+
+  min-height:
+    68px;
+
+  padding:
+    max(12px, env(safe-area-inset-top))
+    14px
+    10px;
+
+  color:
+    white;
+
+  background:
+    rgba(0,0,0,.82);
+
+}
+
+
+.scanner-title {
+
+  text-align:
+    center;
+
+  font-size:
+    18px;
+
+  font-weight:
+    900;
+
+}
+
+
+.close-scanner {
+
+  width:
+    44px;
+
+  height:
+    44px;
+
+  border:
+    none;
+
+  border-radius:
+    50%;
+
+  background:
+    rgba(255,255,255,.15);
+
+  color:
+    white;
+
+  font-size:
+    23px;
+
+  cursor:
+    pointer;
+
+}
+
+
+/* CAMERA */
+
+.scanner-body {
+
+  position:
+    relative;
+
+  flex:
+    1;
+
+  overflow:
+    hidden;
+
+  background:
+    black;
+
+}
+
+
+#reader {
+
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  width:
+    100%;
+
+  height:
+    100%;
+
+  background:
+    black;
+
+}
+
+
+#reader video {
+
+  width:
+    100% !important;
+
+  height:
+    100% !important;
+
+  object-fit:
+    cover !important;
+
+}
+
+
+/*
+  ซ่อน UI เดิมของ html5-qrcode
+*/
+
+#reader img {
+
+  display:
+    none !important;
+
+}
+
+
+#reader button {
+
+  display:
+    none !important;
+
+}
+
+
+#reader select {
+
+  display:
+    none !important;
+
+}
+
+
+/* =========================================================
+   SCANNER MASK
+========================================================= */
+
+.scan-mask {
+
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  z-index:
+    20;
+
+  display:
+    flex;
+
+  justify-content:
+    center;
+
+  align-items:
+    center;
+
+  pointer-events:
+    none;
+
+}
+
+
+.scan-box {
+
+  position:
+    relative;
+
+  width:
+    min(72vw, 330px);
+
+  aspect-ratio:
+    1 / 1;
+
+  border-radius:
+    20px;
+
+  box-shadow:
+    0 0 0 2000px
+    rgba(0,0,0,.46);
+
+}
+
+
+/* CORNERS */
+
+.corner {
+
+  position:
+    absolute;
+
+  width:
+    46px;
+
+  height:
+    46px;
+
+}
+
+
+.corner.tl {
+
+  left:
+    0;
+
+  top:
+    0;
+
+  border-left:
+    5px solid white;
+
+  border-top:
+    5px solid white;
+
+  border-radius:
+    15px 0 0 0;
+
+}
+
+
+.corner.tr {
+
+  right:
+    0;
+
+  top:
+    0;
+
+  border-right:
+    5px solid white;
+
+  border-top:
+    5px solid white;
+
+  border-radius:
+    0 15px 0 0;
+
+}
+
+
+.corner.bl {
+
+  left:
+    0;
+
+  bottom:
+    0;
+
+  border-left:
+    5px solid white;
+
+  border-bottom:
+    5px solid white;
+
+  border-radius:
+    0 0 0 15px;
+
+}
+
+
+.corner.br {
+
+  right:
+    0;
+
+  bottom:
+    0;
+
+  border-right:
+    5px solid white;
+
+  border-bottom:
+    5px solid white;
+
+  border-radius:
+    0 0 15px 0;
+
+}
+
+
+/* SCAN LINE */
+
+.scan-line {
+
+  position:
+    absolute;
+
+  left:
+    8%;
+
+  right:
+    8%;
+
+  height:
+    2px;
+
+  background:
+    #20ec95;
+
+  box-shadow:
+    0 0 13px
+    #20ec95;
+
+  animation:
+    scannerLine
+    1.8s
+    ease-in-out
+    infinite;
+
+}
+
+
+@keyframes scannerLine {
+
+  0% {
+    top: 12%;
+  }
+
+  50% {
+    top: 87%;
+  }
+
+  100% {
+    top: 12%;
+  }
+
+}
+
+
+/* =========================================================
+   SCANNER BOTTOM
+========================================================= */
+
+.scanner-bottom {
+
+  position:
+    absolute;
+
+  z-index:
+    25;
+
+  left:
+    0;
+
+  right:
+    0;
+
+  bottom:
+    max(35px, env(safe-area-inset-bottom));
+
+  text-align:
+    center;
+
+  color:
+    white;
+
+  pointer-events:
+    none;
+
+}
+
+
+.scanner-help {
+
+  font-size:
+    17px;
+
+  font-weight:
+    800;
+
+  text-shadow:
+    0 2px 8px
+    rgba(0,0,0,.9);
+
+}
+
+
+.scanner-status {
+
+  margin-top:
+    7px;
+
+  font-size:
+    13px;
+
+  color:
+    #ddd;
+
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.loading {
+
+  position:
+    fixed;
+
+  inset:
+    0;
+
+  z-index:
+    100000;
+
+  display:
+    none;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  background:
+    rgba(255,255,255,.84);
+
+}
+
+
+.loading.show {
+
+  display:
+    flex;
+
+}
+
+
+.loading-box {
+
+  padding:
+    22px 28px;
+
+  border-radius:
+    15px;
+
+  background:
+    white;
+
+  font-weight:
+    900;
+
+  box-shadow:
+    0 10px 30px
+    rgba(0,0,0,.16);
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width: 420px) {
+
+  .app {
+
+    padding:
+      9px
+      9px
+      35px;
+
+  }
+
+
+  .header {
+
+    padding:
+      19px;
+
+    border-radius:
+      16px;
+
+  }
+
+
+  .header h1 {
+
+    font-size:
+      20px;
+
+  }
+
+
+  .card {
+
+    padding:
+      16px;
+
+  }
+
+
+  .card-title {
+
+    font-size:
+      18px;
+
+  }
+
+
+  .tip-row {
+
+    grid-template-columns:
+      1fr 100px;
+
+  }
+
+
+  .type-btn {
+
+    font-size:
+      15px;
+
+  }
+
+}
+
+
+@media(max-width: 340px) {
+
+  .tip-row {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .scan-btn {
+
+    min-height:
+      50px;
+
+  }
+
+
+  .date-grid {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+}
+
+
+/* =========================================================
+   DESKTOP
+========================================================= */
+
+@media(min-width: 700px) {
+
+  .app {
+
+    padding:
+      20px;
+
+  }
+
+
+  .card {
+
+    padding:
+      24px;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<div class="header">
+
+  <div class="header-content">
+
+    <div class="brand">
+      CJ LOGISTICS
+    </div>
+
+    <h1>
+      ระบบรับ-คืน ใบงาน TRIP
+    </h1>
+
+    <div class="clock">
+
+      เวลาปัจจุบัน:
+      <span id="clock">
+        --:--:--
+      </span>
+      น.
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     NAV
+===================================================== -->
+
+<div class="nav">
+
+  <button
+    class="nav-btn active"
+    type="button"
+  >
+    📝 รับ-คืน
+  </button>
+
+
+  <button
+    class="nav-btn"
+    type="button"
+    onclick="openReport()"
+  >
+    📊 รายงาน
+  </button>
+
+</div>
+
+
+
+<div
+  id="message"
+  class="message"
+></div>
+
+
+
+<!-- =====================================================
+     FORM
+===================================================== -->
+
+<div class="card">
+
+  <div class="card-title">
+    📋 บันทึกการดำเนินการ
+  </div>
+
+
+
+  <!-- TRIP -->
+
+  <div class="field">
+
+    <label>
+      📄 เลขที่ใบงาน TRIP
+    </label>
+
+
+    <div class="tip-row">
+
+      <input
+        id="workOrder"
+        type="text"
+        placeholder="พิมพ์ หรือ สแกน QR Code"
+        autocomplete="off"
+        autocapitalize="off"
+      >
+
+
+      <button
+        class="scan-btn"
+        type="button"
+        onclick="openScanner()"
+      >
+        📷 สแกน
+      </button>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- TYPE -->
+
+  <div class="field">
+
+    <label>
+      📌 ประเภท
+    </label>
+
+
+    <div class="type-grid">
+
+      <button
+        id="receiveBtn"
+        class="type-btn receive active"
+        type="button"
+        onclick="selectType('รับ')"
+      >
+        🟢 รับใบงาน
+      </button>
+
+
+      <button
+        id="returnBtn"
+        class="type-btn return"
+        type="button"
+        onclick="selectType('คืน')"
+      >
+        🔴 คืนใบงาน
+      </button>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- PEOPLE -->
+
+  <div class="field">
+
+    <label id="peopleLabel">
+      👤 ชื่อผู้รับ
+    </label>
+
+
+    <div class="people-info">
+
+      เพิ่มชื่อได้มากกว่า 1 คน
+      และผู้รับกับผู้คืนไม่จำเป็นต้องเป็นคนเดียวกัน
+
+    </div>
+
+
+    <div id="peopleContainer"></div>
+
+
+    <button
+      class="add-person"
+      type="button"
+      onclick="addPerson()"
+    >
+      ＋ เพิ่มชื่ออีกคน
+    </button>
+
+  </div>
+
+
+
+  <!-- DATE TIME -->
+
+  <div class="field">
+
+    <label>
+      📅 วันที่ / เวลา
+    </label>
+
+
+    <div class="date-grid">
+
+      <input
+        id="date"
+        type="date"
+      >
+
+
+      <input
+        id="time"
+        type="time"
+      >
+
+    </div>
+
+  </div>
+
+
+
+  <!-- REMARK -->
+
+  <div class="field">
+
+    <label>
+      📝 หมายเหตุ
+    </label>
+
+
+    <textarea
+      id="remark"
+      placeholder="ระบุหมายเหตุ (ถ้ามี)"
+    ></textarea>
+
+  </div>
+
+
+
+  <!-- SAVE -->
+
+  <button
+    id="saveBtn"
+    class="save-btn"
+    type="button"
+    onclick="saveData()"
+  >
+    💾 บันทึกข้อมูล
+  </button>
+
+
+</div>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     QR SCANNER
+========================================================= -->
+
+<div id="scannerOverlay">
+
+
+  <div class="scanner-header">
+
+    <button
+      class="close-scanner"
+      type="button"
+      onclick="closeScanner()"
+    >
+      ✕
+    </button>
+
+
+    <div class="scanner-title">
+      สแกน QR Code
+    </div>
+
+
+    <div></div>
+
+  </div>
+
+
+
+  <div class="scanner-body">
+
+
+    <div id="reader"></div>
+
+
+    <div class="scan-mask">
+
+      <div class="scan-box">
+
+        <div class="corner tl"></div>
+
+        <div class="corner tr"></div>
+
+        <div class="corner bl"></div>
+
+        <div class="corner br"></div>
+
+        <div class="scan-line"></div>
+
+      </div>
+
+    </div>
+
+
+
+    <div class="scanner-bottom">
+
+      <div class="scanner-help">
+        วาง QR Code ให้อยู่ในกรอบ
+      </div>
+
+      <div
+        id="scannerStatus"
+        class="scanner-status"
+      >
+        กำลังเปิดกล้อง...
+      </div>
+
+    </div>
+
+
+  </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     LOADING
+========================================================= -->
+
+<div
+  id="loading"
+  class="loading"
+>
+
+  <div class="loading-box">
+    กำลังบันทึกข้อมูล...
+  </div>
+
+</div>
+
+
+
+<script>
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+/*
+ * หน้า Report เดิมของ Apps Script
+ */
+
+const REPORT_URL =
+  "https://script.google.com/macros/s/AKfycbwFxJ4qgI5jjoIECQ-AHGnsDnNeXpbpk7r7NkXEJJ6u49w3NsK6UuIp5ZbsxNa17fPizQ/exec?page=report";
+
+
+let selectedType =
+  "รับ";
+
+
+let qrScanner =
+  null;
+
+
+let scannerRunning =
+  false;
+
+
+let scanLocked =
+  false;
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+window.addEventListener(
+  "load",
+  function() {
+
+    updateClock();
+
+    setCurrentDateTime();
+
+    resetPeople();
+
+
+    setInterval(
+      updateClock,
+      1000
+    );
+
+  }
+);
+
+
+/* =========================================================
+   CLOCK
+========================================================= */
+
+function updateClock() {
+
+  const now =
+    new Date();
+
+
+  document
+    .getElementById(
+      "clock"
+    )
+    .textContent =
+
+      now.toLocaleTimeString(
+        "th-TH",
+        {
+          hour12:
+            false
+        }
+      );
+
+}
+
+
+/* =========================================================
+   DATE TIME
+========================================================= */
+
+function setCurrentDateTime() {
+
+  const now =
+    new Date();
+
+
+  const year =
+    now.getFullYear();
+
+
+  const month =
+    String(
+      now.getMonth() + 1
+    )
+    .padStart(
+      2,
+      "0"
+    );
+
+
+  const day =
+    String(
+      now.getDate()
+    )
+    .padStart(
+      2,
+      "0"
+    );
+
+
+  const hour =
+    String(
+      now.getHours()
+    )
+    .padStart(
+      2,
+      "0"
+    );
+
+
+  const minute =
+    String(
+      now.getMinutes()
+    )
+    .padStart(
+      2,
+      "0"
+    );
+
+
+  document
+    .getElementById(
+      "date"
+    )
+    .value =
+      `${year}-${month}-${day}`;
+
+
+  document
+    .getElementById(
+      "time"
+    )
+    .value =
+      `${hour}:${minute}`;
+
+}
+
+
+/* =========================================================
+   TYPE
+========================================================= */
+
+function selectType(type) {
+
+  selectedType =
+    type;
+
+
+  const receiveBtn =
+    document.getElementById(
+      "receiveBtn"
+    );
+
+
+  const returnBtn =
+    document.getElementById(
+      "returnBtn"
+    );
+
+
+  const peopleLabel =
+    document.getElementById(
+      "peopleLabel"
+    );
+
+
+  receiveBtn
+    .classList
+    .remove(
+      "active"
+    );
+
+
+  returnBtn
+    .classList
+    .remove(
+      "active"
+    );
+
+
+  if (
+    type === "รับ"
+  ) {
+
+    receiveBtn
+      .classList
+      .add(
+        "active"
+      );
+
+
+    peopleLabel.textContent =
+      "👤 ชื่อผู้รับ";
+
+  } else {
+
+    returnBtn
+      .classList
+      .add(
+        "active"
+      );
+
+
+    peopleLabel.textContent =
+      "👤 ชื่อผู้คืน";
+
+  }
+
+}
+
+
+/* =========================================================
+   PEOPLE
+========================================================= */
+
+function addPerson(
+  value = ""
+) {
+
+  const container =
+    document.getElementById(
+      "peopleContainer"
+    );
+
+
+  const row =
+    document.createElement(
+      "div"
+    );
+
+
+  row.className =
+    "person-row";
+
+
+  const input =
+    document.createElement(
+      "input"
+    );
+
+
+  input.type =
+    "text";
+
+
+  input.className =
+    "person-name";
+
+
+  input.placeholder =
+
+    selectedType === "รับ"
+
+      ? "กรอกชื่อผู้รับ"
+
+      : "กรอกชื่อผู้คืน";
+
+
+  input.value =
+    value;
+
+
+  input.autocomplete =
+    "off";
+
+
+  const removeBtn =
+    document.createElement(
+      "button"
+    );
+
+
+  removeBtn.type =
+    "button";
+
+
+  removeBtn.className =
+    "remove-person";
+
+
+  removeBtn.textContent =
+    "✕";
+
+
+  removeBtn.onclick =
+    function() {
+
+      const rows =
+        document.querySelectorAll(
+          ".person-row"
+        );
+
+
+      /*
+       * ให้เหลืออย่างน้อย 1 ช่อง
+       */
+
+      if (
+        rows.length <= 1
+      ) {
+
+        input.value =
+          "";
+
+
+        input.focus();
+
+
+        return;
+
+      }
+
+
+      row.remove();
+
+    };
+
+
+  row.appendChild(
+    input
+  );
+
+
+  row.appendChild(
+    removeBtn
+  );
+
+
+  container.appendChild(
+    row
+  );
+
+
+  input.focus();
+
+}
+
+
+/* =========================================================
+   RESET PEOPLE
+========================================================= */
+
+function resetPeople() {
+
+  const container =
+    document.getElementById(
+      "peopleContainer"
+    );
+
+
+  container.innerHTML =
+    "";
+
+
+  addPerson();
+
+}
+
+
+/* =========================================================
+   GET PEOPLE
+========================================================= */
+
+function getPeople() {
+
+  const inputs =
+    document.querySelectorAll(
+      ".person-name"
+    );
+
+
+  const people =
+    [];
+
+
+  inputs.forEach(
+    function(input) {
+
+      const value =
+        input.value.trim();
+
+
+      if (
+        value &&
+        !people.includes(value)
+      ) {
+
+        people.push(
+          value
+        );
+
+      }
+
+    }
+  );
+
+
+  return people;
+
+}
+
+
+/* =========================================================
+   OPEN QR SCANNER
+========================================================= */
+
+async function openScanner() {
+
+  clearMessage();
+
+
+  const overlay =
+    document.getElementById(
+      "scannerOverlay"
+    );
+
+
+  const status =
+    document.getElementById(
+      "scannerStatus"
+    );
+
+
+  scanLocked =
+    false;
+
+
+  overlay
+    .classList
+    .add(
+      "open"
+    );
+
+
+  document.body.style.overflow =
+    "hidden";
+
+
+  status.textContent =
+    "กำลังเปิดกล้อง...";
+
+
+  try {
+
+    if (
+      typeof Html5Qrcode ===
+      "undefined"
+    ) {
+
+      throw new Error(
+        "ไม่สามารถโหลดระบบ QR Scanner ได้"
+      );
+
+    }
+
+
+    /*
+     * ถ้ามี Scanner เก่า
+     * เคลียร์ก่อน
+     */
+
+    if (
+      qrScanner
+    ) {
+
+      try {
+
+        await qrScanner.clear();
+
+      } catch (e) {}
+
+    }
+
+
+    qrScanner =
+      new Html5Qrcode(
+        "reader"
+      );
+
+
+    /*
+     * วิธีหลัก:
+     * ใช้กล้องหลัง
+     */
+
+    try {
+
+      await startScannerWithFacingMode();
+
+
+      return;
+
+    } catch (
+      facingError
+    ) {
+
+      console.warn(
+        "Facing mode failed:",
+        facingError
+      );
+
+    }
+
+
+    /*
+     * FALLBACK:
+     * หา Camera ID เอง
+     */
+
+    await startScannerWithCameraList();
+
+
+  } catch (error) {
+
+    console.error(
+      error
+    );
+
+
+    status.textContent =
+      "เปิดกล้องไม่สำเร็จ";
+
+
+    alert(
+
+      "ไม่สามารถเปิดกล้องได้\n\n" +
+
+      "ตรวจสอบว่าอนุญาตสิทธิ์ Camera แล้ว\n\n" +
+
+      (
+        error.message ||
+        String(error)
+      )
+
+    );
+
+
+    await closeScanner();
+
+  }
+
+}
+
+
+/* =========================================================
+   START WITH FACING MODE
+========================================================= */
+
+async function startScannerWithFacingMode() {
+
+  const cameraConfig = {
+
+    /*
+     * สำคัญ:
+     * ต้องเป็น STRING
+     */
+
+    facingMode:
+      "environment"
+
+  };
+
+
+  await qrScanner.start(
+
+    cameraConfig,
+
+    getScannerConfig(),
+
+    onScanSuccess,
+
+    onScanFailure
+
+  );
+
+
+  scannerRunning =
+    true;
+
+
+  document
+    .getElementById(
+      "scannerStatus"
+    )
+    .textContent =
+      "พร้อมสแกน • เล็ง QR ให้อยู่กลางกรอบ";
+
+}
+
+
+/* =========================================================
+   FALLBACK CAMERA LIST
+========================================================= */
+
+async function startScannerWithCameraList() {
+
+  const cameras =
+    await Html5Qrcode
+      .getCameras();
+
+
+  if (
+    !cameras ||
+    cameras.length === 0
+  ) {
+
+    throw new Error(
+      "ไม่พบกล้องในอุปกรณ์"
+    );
+
+  }
+
+
+  /*
+   * พยายามหากล้องหลังจากชื่อ
+   */
+
+  let selectedCamera =
+    cameras.find(
+      function(camera) {
+
+        const label =
+          String(
+            camera.label ||
+            ""
+          )
+          .toLowerCase();
+
+
+        return (
+
+          label.includes(
+            "back"
+          )
+
+          ||
+
+          label.includes(
+            "rear"
+          )
+
+          ||
+
+          label.includes(
+            "environment"
+          )
+
+          ||
+
+          label.includes(
+            "หลัง"
+          )
+
+        );
+
+      }
+    );
+
+
+  /*
+   * ถ้าหาไม่ได้
+   * มักใช้ตัวสุดท้ายเป็นกล้องหลัง
+   */
+
+  if (
+    !selectedCamera
+  ) {
+
+    selectedCamera =
+      cameras[
+        cameras.length - 1
+      ];
+
+  }
+
+
+  await qrScanner.start(
+
+    selectedCamera.id,
+
+    getScannerConfig(),
+
+    onScanSuccess,
+
+    onScanFailure
+
+  );
+
+
+  scannerRunning =
+    true;
+
+
+  document
+    .getElementById(
+      "scannerStatus"
+    )
+    .textContent =
+      "พร้อมสแกน • กล้องหลัง";
+
+}
+
+
+/* =========================================================
+   SCANNER CONFIG
+========================================================= */
+
+function getScannerConfig() {
+
+  return {
+
+    fps:
+      15,
+
+
+    qrbox:
+      function(
+        viewfinderWidth,
+        viewfinderHeight
+      ) {
+
+        const minEdge =
+          Math.min(
+            viewfinderWidth,
+            viewfinderHeight
+          );
+
+
+        const size =
+          Math.floor(
+            minEdge * 0.68
+          );
+
+
+        return {
+
+          width:
+            size,
+
+          height:
+            size
+
+        };
+
+      },
+
+
+    disableFlip:
+      false
+
+  };
+
+}
+
+
+/* =========================================================
+   SCAN SUCCESS
+========================================================= */
+
+async function onScanSuccess(
+  decodedText
+) {
+
+  if (
+    scanLocked
+  ) {
+
+    return;
+
+  }
+
+
+  scanLocked =
+    true;
+
+
+  const value =
+    String(
+      decodedText ||
+      ""
+    )
+    .replace(
+      /[\r\n]/g,
+      ""
+    )
+    .trim();
+
+
+  if (!value) {
+
+    scanLocked =
+      false;
+
+
+    return;
+
+  }
+
+
+  document
+    .getElementById(
+      "workOrder"
+    )
+    .value =
+      value;
+
+
+  document
+    .getElementById(
+      "scannerStatus"
+    )
+    .textContent =
+      "✓ สแกนสำเร็จ";
+
+
+  /*
+   * สั่น
+   */
+
+  try {
+
+    if (
+      navigator.vibrate
+    ) {
+
+      navigator.vibrate(
+        150
+      );
+
+    }
+
+  } catch (e) {}
+
+
+  /*
+   * ปิดกล้อง
+   */
+
+  setTimeout(
+
+    async function() {
+
+      await closeScanner();
+
+
+      /*
+       * ไปชื่อคนทันที
+       */
+
+      const personInput =
+        document.querySelector(
+          ".person-name"
+        );
+
+
+      if (
+        personInput
+      ) {
+
+        personInput.focus();
+
+      }
+
+    },
+
+    250
+
+  );
+
+}
+
+
+/* =========================================================
+   SCAN FAILURE
+========================================================= */
+
+function onScanFailure(
+  error
+) {
+
+  /*
+   * QR scanner จะหา QR ทุก frame
+   * จึงไม่ต้องแสดง error
+   */
+
+}
+
+
+/* =========================================================
+   CLOSE SCANNER
+========================================================= */
+
+async function closeScanner() {
+
+  const overlay =
+    document.getElementById(
+      "scannerOverlay"
+    );
+
+
+  overlay
+    .classList
+    .remove(
+      "open"
+    );
+
+
+  document.body.style.overflow =
+    "";
+
+
+  try {
+
+    if (
+      qrScanner
+    ) {
+
+      if (
+        scannerRunning
+      ) {
+
+        await qrScanner.stop();
+
+      }
+
+
+      await qrScanner.clear();
+
+    }
+
+  } catch (e) {
+
+    console.log(
+      e
+    );
+
+  }
+
+
+  qrScanner =
+    null;
+
+
+  scannerRunning =
+    false;
+
+
+  scanLocked =
+    false;
+
+}
+
+
+/* =========================================================
+   SAVE
+========================================================= */
+
+async function saveData() {
+
+  clearMessage();
+
+
+  const workOrder =
+    document
+      .getElementById(
+        "workOrder"
+      )
+      .value
+      .trim();
+
+
+  const people =
+    getPeople();
+
+
+  const date =
+    document
+      .getElementById(
+        "date"
+      )
+      .value;
+
+
+  const time =
+    document
+      .getElementById(
+        "time"
+      )
+      .value;
+
+
+  const remark =
+    document
+      .getElementById(
+        "remark"
+      )
+      .value
+      .trim();
+
+
+  /*
+   * VALIDATE
+   */
+
+  if (
+    !workOrder
+  ) {
+
+    showMessage(
+
+      "กรุณากรอกหรือสแกนเลขที่ใบงาน TRIP",
+
+      false
+
+    );
+
+
+    return;
+
+  }
+
+
+  if (
+    people.length === 0
+  ) {
+
+    showMessage(
+
+      selectedType === "รับ"
+
+        ? "กรุณากรอกชื่อผู้รับอย่างน้อย 1 คน"
+
+        : "กรุณากรอกชื่อผู้คืนอย่างน้อย 1 คน",
+
+      false
+
+    );
+
+
+    return;
+
+  }
+
+
+  if (
+    !date ||
+    !time
+  ) {
+
+    showMessage(
+      "กรุณาระบุวันที่และเวลา",
+      false
+    );
+
+
+    return;
+
+  }
+
+
+  /*
+   * ตอนนี้ Backend Apps Script
+   * ใช้ operator 1 field
+   *
+   * เราจึงรวมหลายชื่อเป็นข้อความเดียว
+   */
+
+  const operator =
+    people.join(
+      ", "
+    );
+
+
+  const confirmText =
+
+    selectedType +
+    "ใบงาน " +
+    workOrder +
+    "\n\n" +
+
+    (
+      selectedType === "รับ"
+
+        ? "ผู้รับ: "
+
+        : "ผู้คืน: "
+    )
+
+    +
+
+    operator;
+
+
+  if (
+    !confirm(
+      confirmText
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  const payload = {
+
+    /*
+     * ต้องตรงกับ Code.gs
+     */
+
+    workOrder:
+      workOrder,
+
+    operator:
+      operator,
+
+    action:
+      selectedType,
+
+    date:
+      date,
+
+    time:
+      time,
+
+    remark:
+      remark
+
+  };
+
+
+  setLoading(
+    true
+  );
+
+
+  try {
+
+    const response =
+      await fetch(
+
+        "/api/save",
+
+        {
+
+          method:
+            "POST",
+
+          headers: {
+
+            "Content-Type":
+              "application/json"
+
+          },
+
+          body:
+            JSON.stringify(
+              payload
+            )
+
+        }
+
+      );
+
+
+    const result =
+      await response.json();
+
+
+    if (
+      !response.ok
+    ) {
+
+      throw new Error(
+
+        result.message ||
+        "HTTP " +
+        response.status
+
+      );
+
+    }
+
+
+    if (
+      !result.success
+    ) {
+
+      throw new Error(
+
+        result.message ||
+        "บันทึกข้อมูลไม่สำเร็จ"
+
+      );
+
+    }
+
+
+    setLoading(
+      false
+    );
+
+
+    showMessage(
+
+      "✓ " +
+      result.message +
+      "\n" +
+
+      (
+        selectedType === "รับ"
+
+          ? "ผู้รับ: "
+
+          : "ผู้คืน: "
+      )
+
+      +
+
+      operator,
+
+      true
+
+    );
+
+
+    /*
+     * RESET
+     */
+
+    document
+      .getElementById(
+        "workOrder"
+      )
+      .value =
+        "";
+
+
+    document
+      .getElementById(
+        "remark"
+      )
+      .value =
+        "";
+
+
+    resetPeople();
+
+
+    setCurrentDateTime();
+
+
+  } catch (error) {
+
+    setLoading(
+      false
+    );
+
+
+    console.error(
+      error
+    );
+
+
+    showMessage(
+
+      "❌ บันทึกไม่สำเร็จ\n" +
+      (
+        error.message ||
+        String(error)
+      ),
+
+      false
+
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+function setLoading(
+  show
+) {
+
+  const loading =
+    document.getElementById(
+      "loading"
+    );
+
+
+  const saveBtn =
+    document.getElementById(
+      "saveBtn"
+    );
+
+
+  if (
+    show
+  ) {
+
+    loading
+      .classList
+      .add(
+        "show"
+      );
+
+
+    saveBtn.disabled =
+      true;
+
+  } else {
+
+    loading
+      .classList
+      .remove(
+        "show"
+      );
+
+
+    saveBtn.disabled =
+      false;
+
+  }
+
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+function showMessage(
+  text,
+  success
+) {
+
+  const box =
+    document.getElementById(
+      "message"
+    );
+
+
+  box.textContent =
+    text;
+
+
+  box.className =
+
+    success
+
+      ? "message success"
+
+      : "message error";
+
+
+  window.scrollTo({
+
+    top:
+      0,
+
+    behavior:
+      "smooth"
+
+  });
+
+}
+
+
+/* =========================================================
+   CLEAR MESSAGE
+========================================================= */
+
+function clearMessage() {
+
+  const box =
+    document.getElementById(
+      "message"
+    );
+
+
+  box.textContent =
+    "";
+
+
+  box.className =
+    "message";
+
+}
+
+
+/* =========================================================
+   REPORT
+========================================================= */
+
+function openReport() {
+
+  window.location.href =
+    REPORT_URL;
+
+}
+
+
+/* =========================================================
+   PAGE HIDDEN
+========================================================= */
+
+document.addEventListener(
+
+  "visibilitychange",
+
+  function() {
+
+    if (
+      document.hidden &&
+      scannerRunning
+    ) {
+
+      closeScanner();
+
+    }
+
+  }
+
+);
+
+</script>
+
+
+</body>
+
+</html>
