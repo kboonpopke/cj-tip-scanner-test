@@ -417,6 +417,102 @@ textarea:focus {
 }
 
 
+
+/* =========================================================
+   COMPANY
+========================================================= */
+
+.company-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.company-btn {
+  min-height: 108px;
+  padding: 10px 7px;
+  border: 2px solid #d9e1ea;
+  border-radius: 14px;
+  background: white;
+  color: #172033;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 900;
+  transition: transform .12s ease, border-color .12s ease, background .12s ease, box-shadow .12s ease;
+}
+
+.company-btn:active {
+  transform: scale(.97);
+}
+
+.company-btn.active {
+  border-color: #0783d0;
+  background: #eef9ff;
+  box-shadow: 0 0 0 3px rgba(7,131,208,.10);
+}
+
+.company-logo {
+  width: 62px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.company-logo.bc {
+  color: white;
+  background: linear-gradient(145deg, #147aaa, #1794c7);
+  font-size: 24px;
+  letter-spacing: -1px;
+}
+
+.company-logo.buzz {
+  color: #526441;
+  background: #f5f7f2;
+  font-size: 13px;
+}
+
+.company-logo.poom {
+  color: #e0ba23;
+  background: #070707;
+  font-size: 22px;
+  border: 2px solid #bd9411;
+}
+
+.company-logo.outsource {
+  color: white;
+  background: linear-gradient(145deg, #4e5966, #697686);
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+.company-name {
+  min-height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+@media(max-width: 520px) {
+  .company-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .company-btn {
+    min-height: 100px;
+  }
+}
+
+
 /* =========================================================
   TRIP
 ========================================================= */
@@ -460,6 +556,72 @@ textarea:focus {
       135deg,
       #0781cd,
       #18a7e8
+    );
+
+}
+
+
+
+/* =========================================================
+   COMPANY
+========================================================= */
+
+function selectCompany(
+  company,
+  button
+) {
+
+  selectedCompany =
+    company;
+
+  document
+    .querySelectorAll(
+      ".company-btn"
+    )
+    .forEach(
+      function(btn) {
+
+        btn.classList.remove(
+          "active"
+        );
+
+      }
+    );
+
+  if (
+    button
+  ) {
+
+    button.classList.add(
+      "active"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   RESET COMPANY
+========================================================= */
+
+function resetCompany() {
+
+  selectedCompany =
+    "";
+
+  document
+    .querySelectorAll(
+      ".company-btn"
+    )
+    .forEach(
+      function(btn) {
+
+        btn.classList.remove(
+          "active"
+        );
+
+      }
     );
 
 }
@@ -1483,6 +1645,62 @@ textarea:focus {
 
 
 
+
+  <!-- COMPANY -->
+
+  <div class="field">
+
+    <label>
+      🏢 บริษัท
+    </label>
+
+    <div class="company-grid">
+
+      <button
+        id="companyBlueCope"
+        class="company-btn"
+        type="button"
+        onclick="selectCompany('BlueCope', this)"
+      >
+        <div class="company-logo bc">BC</div>
+        <div class="company-name">BlueCope</div>
+      </button>
+
+      <button
+        id="companyBuzz"
+        class="company-btn"
+        type="button"
+        onclick="selectCompany('Buzz', this)"
+      >
+        <div class="company-logo buzz">BUZZ</div>
+        <div class="company-name">Buzz</div>
+      </button>
+
+      <button
+        id="companyPoomrapee"
+        class="company-btn"
+        type="button"
+        onclick="selectCompany('Poomrapee', this)"
+      >
+        <div class="company-logo poom">P</div>
+        <div class="company-name">Poomrapee</div>
+      </button>
+
+      <button
+        id="companyOutsource"
+        class="company-btn"
+        type="button"
+        onclick="selectCompany('Outsource', this)"
+      >
+        <div class="company-logo outsource">OUT</div>
+        <div class="company-name">Outsource</div>
+      </button>
+
+    </div>
+
+  </div>
+
+
   <!-- TRIP -->
 
   <div class="field">
@@ -1755,7 +1973,11 @@ textarea:focus {
  */
 
 const REPORT_URL =
-  "https://script.google.com/macros/s/AKfycbwFxJ4qgI5jjoIECQ-AHGnsDnNeXpbpk7r7NkXEJJ6u49w3NsK6UuIp5ZbsxNa17fPizQ/exec?page=report";
+  "https://script.google.com/macros/s/AKfycbwEZedspWK4VTSBcddfkOmbi4JSeGQ-8F9wjn1Fg4p-xsd8ACXMusfb_hc9x6uvbdQ8Vg/exec?page=report";
+
+
+let selectedCompany =
+  "";
 
 
 let selectedType =
@@ -2764,6 +2986,20 @@ async function saveData() {
    */
 
   if (
+    !selectedCompany
+  ) {
+
+    showMessage(
+      "กรุณาเลือกบริษัท",
+      false
+    );
+
+    return;
+
+  }
+
+
+  if (
     !workOrder
   ) {
 
@@ -2834,6 +3070,10 @@ async function saveData() {
 
   const confirmText =
 
+    "บริษัท: " +
+    selectedCompany +
+    "\n\n" +
+
     selectedType +
     "ใบงาน " +
     workOrder +
@@ -2868,6 +3108,9 @@ async function saveData() {
     /*
      * ต้องตรงกับ Code.gs
      */
+
+    company:
+      selectedCompany,
 
     workOrder:
       workOrder,
@@ -2967,6 +3210,9 @@ async function saveData() {
       "✓ " +
       result.message +
       "\n" +
+      "บริษัท: " +
+      selectedCompany +
+      "\n" +
 
       (
         selectedType === "รับ"
@@ -3006,6 +3252,9 @@ async function saveData() {
 
 
     resetPeople();
+
+
+    resetCompany();
 
 
     setCurrentDateTime();
