@@ -1523,6 +1523,35 @@ textarea:focus {
 }
 
 
+
+.search-trip-btn {
+  min-height: 50px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 12px;
+  background: #172033;
+  color: white;
+  font-size: 14px;
+  font-weight: 900;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.search-trip-btn:active {
+  transform: scale(.98);
+}
+
+@media(max-width: 520px) {
+  .tip-row {
+    align-items: stretch;
+  }
+
+  .search-trip-btn {
+    padding: 0 10px;
+    font-size: 13px;
+  }
+}
+
 </style>
 
 </head>
@@ -1687,6 +1716,14 @@ textarea:focus {
         onclick="openScanner()"
       >
         📷 สแกน
+      </button>
+
+      <button
+        class="search-trip-btn"
+        type="button"
+        onclick="searchCurrentTrip()"
+      >
+        🔎 ค้นหาผู้รับงาน
       </button>
 
     </div>
@@ -2284,6 +2321,39 @@ function setAutoReturnMode(
 
       }
     );
+
+}
+
+
+
+async function searchCurrentTrip() {
+
+  const workOrder =
+    document
+      .getElementById(
+        "workOrder"
+      )
+      .value
+      .trim();
+
+
+  if (
+    !workOrder
+  ) {
+
+    showMessage(
+      "กรุณาพิมพ์หรือสแกนเลขที่ใบงาน TRIP ก่อน",
+      false
+    );
+
+    return;
+
+  }
+
+
+  await lookupWorkOrderStatus(
+    workOrder
+  );
 
 }
 
