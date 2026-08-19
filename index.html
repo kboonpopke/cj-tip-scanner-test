@@ -1500,6 +1500,29 @@ textarea:focus {
 
 }
 
+
+
+/* =========================================================
+   AUTO RETURN MODE
+========================================================= */
+
+.auto-return-note {
+  margin-top: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #eef8ff;
+  border: 1px solid #cfe8f8;
+  color: #17324d;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.auto-locked {
+  opacity: .72;
+  pointer-events: none;
+}
+
+
 </style>
 
 </head>
@@ -1934,6 +1957,10 @@ let selectedCompany =
   "";
 
 
+let autoReturnMode =
+  false;
+
+
 let selectedType =
   "รับ";
 
@@ -2153,6 +2180,114 @@ function resetCompany() {
    LOOKUP WORK ORDER
 ========================================================= */
 
+
+function setAutoReturnMode(
+  enabled
+) {
+
+  autoReturnMode =
+    !!enabled;
+
+
+  document
+    .querySelectorAll(
+      ".company-btn"
+    )
+    .forEach(
+      function(btn) {
+
+        btn.disabled =
+          autoReturnMode;
+
+        btn.classList.toggle(
+          "auto-locked",
+          autoReturnMode
+        );
+
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      ".type-btn"
+    )
+    .forEach(
+      function(btn) {
+
+        btn.disabled =
+          autoReturnMode;
+
+        btn.classList.toggle(
+          "auto-locked",
+          autoReturnMode
+        );
+
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      ".person-name"
+    )
+    .forEach(
+      function(input) {
+
+        input.readOnly =
+          autoReturnMode;
+
+        input.classList.toggle(
+          "auto-locked",
+          autoReturnMode
+        );
+
+      }
+    );
+
+
+  const addPersonButton =
+    document.querySelector(
+      ".add-person"
+    );
+
+
+  if (
+    addPersonButton
+  ) {
+
+    addPersonButton.disabled =
+      autoReturnMode;
+
+    addPersonButton.classList.toggle(
+      "auto-locked",
+      autoReturnMode
+    );
+
+  }
+
+
+  document
+    .querySelectorAll(
+      ".remove-person"
+    )
+    .forEach(
+      function(btn) {
+
+        btn.disabled =
+          autoReturnMode;
+
+        btn.classList.toggle(
+          "auto-locked",
+          autoReturnMode
+        );
+
+      }
+    );
+
+}
+
+
 async function lookupWorkOrderStatus(
   workOrder
 ) {
@@ -2161,6 +2296,22 @@ async function lookupWorkOrderStatus(
     document.getElementById(
       "lookupInfo"
     );
+
+
+  setAutoReturnMode(
+    false
+  );
+
+
+  resetCompany();
+
+
+  resetPeople();
+
+
+  selectType(
+    "รับ"
+  );
 
 
   try {
@@ -2210,7 +2361,7 @@ async function lookupWorkOrderStatus(
     ) {
 
       info.innerHTML =
-        "🆕 ไม่พบรายการเดิม • พร้อมรับงานใหม่";
+        "🆕 ไม่พบรายการรับเดิม • หากต้องการรับงานใหม่ กรุณาเลือกบริษัทและกรอกชื่อผู้รับ";
 
 
       selectType(
@@ -2262,6 +2413,11 @@ async function lookupWorkOrderStatus(
       );
 
 
+      setAutoReturnMode(
+        true
+      );
+
+
       info.innerHTML =
         "✅ พบข้อมูลการรับเดิม<br>" +
         "🏢 บริษัท: <b>" +
@@ -2289,7 +2445,8 @@ async function lookupWorkOrderStatus(
           )
         ) +
         "</b><br>" +
-        "🔴 ระบบเลือก “คืนใบงาน” และกรอกชื่อผู้รับเดิมให้แล้ว";
+        "🔴 ดึงข้อมูลจากรายการรับเดิมให้แล้ว<br>" +
+        "👉 ตรวจสอบข้อมูล แล้วกดบันทึกได้เลย";
 
 
       return;
@@ -3625,6 +3782,11 @@ async function saveData() {
 
 
     resetCompany();
+
+
+    setAutoReturnMode(
+      false
+    );
 
 
     setCurrentDateTime();
