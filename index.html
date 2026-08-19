@@ -2257,6 +2257,11 @@ async function lookupWorkOrderStatus(
       );
 
 
+      fillPeopleFromPreviousOperator(
+        result.operator
+      );
+
+
       info.innerHTML =
         "✅ พบข้อมูลการรับเดิม<br>" +
         "🏢 บริษัท: <b>" +
@@ -2284,7 +2289,7 @@ async function lookupWorkOrderStatus(
           )
         ) +
         "</b><br>" +
-        "🔴 ระบบเลือก “คืนใบงาน” ให้แล้ว";
+        "🔴 ระบบเลือก “คืนใบงาน” และกรอกชื่อผู้รับเดิมให้แล้ว";
 
 
       return;
@@ -2315,6 +2320,77 @@ async function lookupWorkOrderStatus(
       );
 
   }
+
+}
+
+
+
+function fillPeopleFromPreviousOperator(
+  operator
+) {
+
+  const container =
+    document.getElementById(
+      "peopleContainer"
+    );
+
+
+  if (
+    !container
+  ) {
+
+    return;
+
+  }
+
+
+  const names =
+    String(
+      operator || ""
+    )
+    .split(
+      ","
+    )
+    .map(
+      function(name) {
+
+        return name.trim();
+
+      }
+    )
+    .filter(
+      function(name) {
+
+        return !!name;
+
+      }
+    );
+
+
+  container.innerHTML =
+    "";
+
+
+  if (
+    names.length === 0
+  ) {
+
+    addPerson();
+
+    return;
+
+  }
+
+
+  names.forEach(
+    function(name) {
+
+      addPerson(
+        name
+      );
+
+    }
+  );
 
 }
 
