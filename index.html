@@ -2,7 +2,7 @@
 <html lang="th">
 
 <head>
- 
+
   <meta charset="UTF-8">
 
   <meta
@@ -560,71 +560,6 @@ textarea:focus {
 
 }
 
-
-
-/* =========================================================
-   COMPANY
-========================================================= */
-
-function selectCompany(
-  company,
-  button
-) {
-
-  selectedCompany =
-    company;
-
-  document
-    .querySelectorAll(
-      ".company-btn"
-    )
-    .forEach(
-      function(btn) {
-
-        btn.classList.remove(
-          "active"
-        );
-
-      }
-    );
-
-  if (
-    button
-  ) {
-
-    button.classList.add(
-      "active"
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   RESET COMPANY
-========================================================= */
-
-function resetCompany() {
-
-  selectedCompany =
-    "";
-
-  document
-    .querySelectorAll(
-      ".company-btn"
-    )
-    .forEach(
-      function(btn) {
-
-        btn.classList.remove(
-          "active"
-        );
-
-      }
-    );
-
-}
 
 
 /* =========================================================
@@ -2115,6 +2050,81 @@ function setCurrentDateTime() {
     )
     .value =
       `${hour}:${minute}`;
+
+}
+
+
+
+/* =========================================================
+   COMPANY
+========================================================= */
+
+function selectCompany(
+  company,
+  button
+) {
+
+  selectedCompany =
+    company;
+
+
+  document
+    .querySelectorAll(
+      ".company-btn"
+    )
+    .forEach(
+      function(btn) {
+
+        btn
+          .classList
+          .remove(
+            "active"
+          );
+
+      }
+    );
+
+
+  if (
+    button
+  ) {
+
+    button
+      .classList
+      .add(
+        "active"
+      );
+
+  }
+
+}
+
+
+/* =========================================================
+   RESET COMPANY
+========================================================= */
+
+function resetCompany() {
+
+  selectedCompany =
+    "";
+
+
+  document
+    .querySelectorAll(
+      ".company-btn"
+    )
+    .forEach(
+      function(btn) {
+
+        btn
+          .classList
+          .remove(
+            "active"
+          );
+
+      }
+    );
 
 }
 
