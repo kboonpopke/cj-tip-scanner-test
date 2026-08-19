@@ -424,7 +424,7 @@ textarea:focus {
 
 .company-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
 
@@ -491,6 +491,14 @@ textarea:focus {
   color: white;
   background: linear-gradient(145deg, #4e5966, #697686);
   font-size: 13px;
+  letter-spacing: 1px;
+}
+
+
+.company-logo.cj {
+  color: white;
+  background: linear-gradient(145deg, #d80000, #ef2b2b);
+  font-size: 20px;
   letter-spacing: 1px;
 }
 
@@ -1589,6 +1597,7 @@ textarea:focus {
       🏢 บริษัท
     </label>
 
+
     <div class="company-grid">
 
       <button
@@ -1601,6 +1610,7 @@ textarea:focus {
         <div class="company-name">BlueCope</div>
       </button>
 
+
       <button
         id="companyBuzz"
         class="company-btn"
@@ -1611,20 +1621,21 @@ textarea:focus {
         <div class="company-name">Buzz</div>
       </button>
 
-      <button
-  id="companyCJ"
-  class="company-btn"
-  type="button"
-  onclick="selectCompany('CJ', this)"
->
-  <div class="company-logo">CJ</div>
-  <div class="company-name">CJ</div>
-</button>
 
+      <button
+        id="companyCJ"
+        class="company-btn"
+        type="button"
+        onclick="selectCompany('CJ', this)"
+      >
+        <div class="company-logo cj">CJ</div>
+        <div class="company-name">CJ</div>
+      </button>
 
     </div>
 
   </div>
+
 
 
   <!-- TRIP -->
@@ -1661,7 +1672,24 @@ textarea:focus {
 
 
 
-  <!-- TYPE -->
+  
+  <div
+    id="lookupInfo"
+    style="
+      display:none;
+      margin-top:-8px;
+      margin-bottom:20px;
+      padding:14px;
+      border-radius:13px;
+      background:#f3f8fc;
+      border:1px solid #d7e5ef;
+      font-size:14px;
+      line-height:1.65;
+    "
+  ></div>
+
+
+<!-- TYPE -->
 
   <div class="field">
 
@@ -2116,6 +2144,250 @@ function resetCompany() {
 
       }
     );
+
+}
+
+
+
+/* =========================================================
+   LOOKUP WORK ORDER
+========================================================= */
+
+async function lookupWorkOrderStatus(
+  workOrder
+) {
+
+  const info =
+    document.getElementById(
+      "lookupInfo"
+    );
+
+
+  try {
+
+    info.style.display =
+      "block";
+
+
+    info.innerHTML =
+      "⏳ กำลังตรวจสอบใบงาน...";
+
+
+    const response =
+      await fetch(
+        "/api/lookup?workOrder=" +
+        encodeURIComponent(
+          workOrder
+        ),
+        {
+          method:
+            "GET",
+          cache:
+            "no-store"
+        }
+      );
+
+
+    const result =
+      await response.json();
+
+
+    if (
+      !response.ok ||
+      !result.success
+    ) {
+
+      throw new Error(
+        result.message ||
+        "ตรวจสอบข้อมูลไม่สำเร็จ"
+      );
+
+    }
+
+
+    if (
+      !result.found
+    ) {
+
+      info.innerHTML =
+        "🆕 ไม่พบรายการเดิม • พร้อมรับงานใหม่";
+
+
+      selectType(
+        "รับ"
+      );
+
+
+      return;
+
+    }
+
+
+    if (
+      result.status ===
+      "กำลังใช้งาน"
+    ) {
+
+      if (
+        result.company
+      ) {
+
+        const companyButton =
+          getCompanyButton(
+            result.company
+          );
+
+
+        if (
+          companyButton
+        ) {
+
+          selectCompany(
+            result.company,
+            companyButton
+          );
+
+        }
+
+      }
+
+
+      selectType(
+        "คืน"
+      );
+
+
+      info.innerHTML =
+        "✅ พบข้อมูลการรับเดิม<br>" +
+        "🏢 บริษัท: <b>" +
+        escapeHtml(
+          result.company ||
+          "-"
+        ) +
+        "</b><br>" +
+        "👤 ผู้รับเดิม: <b>" +
+        escapeHtml(
+          result.operator ||
+          "-"
+        ) +
+        "</b><br>" +
+        "🕐 รับเมื่อ: <b>" +
+        escapeHtml(
+          (
+            result.date ||
+            "-"
+          ) +
+          " " +
+          (
+            result.time ||
+            ""
+          )
+        ) +
+        "</b><br>" +
+        "🔴 ระบบเลือก “คืนใบงาน” ให้แล้ว";
+
+
+      return;
+
+    }
+
+
+    info.innerHTML =
+      "♻️ ใบงานนี้คืนแล้ว • พร้อมรับรอบใหม่";
+
+
+    selectType(
+      "รับ"
+    );
+
+
+  } catch (error) {
+
+    info.style.display =
+      "block";
+
+
+    info.innerHTML =
+      "❌ ตรวจสอบใบงานไม่สำเร็จ: " +
+      escapeHtml(
+        error.message ||
+        String(error)
+      );
+
+  }
+
+}
+
+
+function getCompanyButton(
+  company
+) {
+
+  if (
+    company === "BlueCope"
+  ) {
+
+    return document.getElementById(
+      "companyBlueCope"
+    );
+
+  }
+
+
+  if (
+    company === "Buzz"
+  ) {
+
+    return document.getElementById(
+      "companyBuzz"
+    );
+
+  }
+
+
+  if (
+    company === "CJ"
+  ) {
+
+    return document.getElementById(
+      "companyCJ"
+    );
+
+  }
+
+
+  return null;
+
+}
+
+
+function escapeHtml(
+  value
+) {
+
+  return String(
+    value || ""
+  )
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+  .replace(
+    /</g,
+    "&lt;"
+  )
+  .replace(
+    />/g,
+    "&gt;"
+  )
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+  .replace(
+    /'/g,
+    "&#039;"
+  );
 
 }
 
@@ -2789,6 +3061,11 @@ async function onScanSuccess(
       value;
 
 
+  await lookupWorkOrderStatus(
+    value
+  );
+
+
   document
     .getElementById(
       "scannerStatus"
@@ -3241,6 +3518,22 @@ async function saveData() {
         "workOrder"
       )
       .value =
+        "";
+
+
+    document
+      .getElementById(
+        "lookupInfo"
+      )
+      .style.display =
+        "none";
+
+
+    document
+      .getElementById(
+        "lookupInfo"
+      )
+      .innerHTML =
         "";
 
 
